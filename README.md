@@ -30,4 +30,4 @@ If you want to support this project, leave a ⭐.
 
 ___
 
-This project was created with 💚 by [Walmyr](https://www.linkedin.com/in/nathanael-henrique-souza-nunes-256499330/).
+This project was created with 💚 by [Walmyr](https://walmyr.dev).
