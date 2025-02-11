@@ -1,0 +1,11 @@
+Cypress.Commands.add('testePerformace', () => {
+    const firstname = ('Nathanael')
+    cy.get('#firstName').type(firstname, { delay: 100 })
+    cy.get('#lastName').type('Henrique Souza Nunes')
+    cy.get('#email').type('nathanaelhenriquesouzanunes@gmail.com')
+    cy.get(':nth-child(4) > input').click()
+    cy.get('#email-checkbox').click()
+    cy.get('#open-text-area').type('Produto muito bom, parabens, produto excelente, superou nossas expectativas')
+    cy.get('button, [type="submit"]').click()
+      .should('be.visible', 'Mensagem enviada com sucesso')
+})
