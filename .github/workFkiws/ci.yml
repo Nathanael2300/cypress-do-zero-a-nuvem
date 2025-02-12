@@ -1,27 +1,10 @@
 name: End-to-end tests
-
-on:
-  push:
-    branches:
-      - main  # Ou outra branch que deseja monitorar
-
+on: push
 jobs:
   cypress-run:
     runs-on: ubuntu-22.04
-
     steps:
-      - name: Checkout do código
+      - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Configurar Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '22'  
-
-      - name: Instalar dependências
-        run: npm install  
-
-      - name: Rodar Cypress
+      - name: Cypress run
         uses: cypress-io/github-action@v6
-        with:
-          start: npm start  
