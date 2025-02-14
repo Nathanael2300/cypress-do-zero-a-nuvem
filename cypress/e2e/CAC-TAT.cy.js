@@ -9,8 +9,11 @@ describe('Central de Atendimento ao Cliente TAT', () => {
   })
 
 
-  it('preenche os campos obrigatórios e envia o formulário', () => {
+  it.only('preenche os campos obrigatórios e envia o formulário', () => {
+    cy.clock()
+
     const firstname = ('Nathanael')
+
     cy.get('#firstName').type(firstname, { delay: 100 })
     cy.get('#lastName').type('Henrique Souza Nunes')
     cy.get('#email').type('nathanaelhenriquesouzanunes@gmail.com')
@@ -19,10 +22,17 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('#open-text-area').type('Produto muito bom, parabens, produto excelente, superou nossas expectativas')
     cy.get('button, [type="submit"]').click()
       .should('be.visible', 'Mensagem enviada com sucesso')
+
+      cy.tick(3000)
+
+      cy.get('.success').should('not.be.visible')
   })
 
-  it('exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', () => {
+  it.only('exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', () => {
+    cy.clock()
+
     const firstname = ('Nathanael')
+
     cy.get('#firstName').type(firstname)
     cy.get('#lastName').type('Henrique Souza Nunes')
     cy.get('#email').type('nathanaelhenriquesouzanunes@gmail')
@@ -31,6 +41,10 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('#open-text-area').type('test')
     cy.get('button, [type="submit"]').click()
       .should('be.visible', 'Valide os campos obrigatórios!')
+
+      cy.tick(3000)
+
+      cy.get('.success').should('not.be.visible')
 
   })
   it('Visto que o campo de telefone só aceita números, crie um teste para validar que, se um valor não-numérico for digitado, seu valor continuará vazio.', () => {
@@ -41,8 +55,11 @@ describe('Central de Atendimento ao Cliente TAT', () => {
   })
 
 
-  it('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', () => {
+  it.only('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', () => {
+    cy.clock()
+
     const firstname = ('Nathanael')
+
     cy.get('#firstName').type(firstname)
     cy.get('#lastName').type('Henrique Souza Nunes')
     cy.get('#email').type('nathanaelhenriquesouzanunes@gmail')
@@ -51,6 +68,10 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('#open-text-area').type(feedBack)
     cy.get('button, [type="submit"]').click()
       .should('be.visible', 'Valide os campos obrigatórios!')
+
+      cy.tick(3000)
+
+      cy.get('.success').should('not.be.visible')
   })
 
   it('preenche e limpa os campos nome, sobrenome, email e telefone', () => {
@@ -67,11 +88,20 @@ describe('Central de Atendimento ao Cliente TAT', () => {
   })
 
   it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', () => {
+    cy.clock()
+
     cy.get('button, [type="submit"]').click()
       .should('be.visible', 'Valide os campos obrigatórios!')
+
+      cy.tick(3000)
+
+      y.get('.success').should('not.be.visible')
   })
-  it('Deve possuir um titulo escrito "CAC TAT" a cima do formulario', () => {
+  it.only('Deve possuir um titulo escrito "CAC TAT" a cima do formulario', () => {
+    cy.clock
+
     cy.contains('#title', 'CAC TAT')
+
     const firstname = ('Nathanael')
     cy.get('#firstName').type(firstname)
     cy.get('#lastName').type('Henrique Souza Nunes')
@@ -81,6 +111,10 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('#open-text-area').type('Produto muito bom, parabens, produto excelente, superou nossas expectativas')
     cy.get('button, [type="submit"]').click()
     .should('be.visible', 'Mensagem enviada com sucesso')
+
+    cy.tick(3000)
+
+    cy.get('.success').should('not.be.visible')
   })
 
   it('seleciona um produto (YouTube) por seu texto', () => {
