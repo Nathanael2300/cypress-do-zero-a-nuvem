@@ -1,3 +1,5 @@
+const { should } = require("chai")
+
 describe('Central de Atendimento ao Cliente TAT', () => {
   beforeEach(() => {
     cy.visit('/src/index.html')
@@ -9,7 +11,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
   })
 
 
-  it.only('preenche os campos obrigatórios e envia o formulário', () => {
+  it('preenche os campos obrigatórios e envia o formulário', () => {
     cy.clock()
 
     const firstname = ('Nathanael')
@@ -28,7 +30,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
       cy.get('.success').should('not.be.visible')
   })
 
-  it.only('exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', () => {
+  it('exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', () => {
     cy.clock()
 
     const firstname = ('Nathanael')
@@ -55,7 +57,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
   })
 
 
-  it.only('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', () => {
+  it('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', () => {
     cy.clock()
 
     const firstname = ('Nathanael')
@@ -95,13 +97,10 @@ describe('Central de Atendimento ao Cliente TAT', () => {
 
       cy.tick(3000)
 
-      y.get('.success').should('not.be.visible')
+      cy.get('.success').should('not.be.visible')
   })
-  it.only('Deve possuir um titulo escrito "CAC TAT" a cima do formulario', () => {
-    cy.clock
-
+  it('Deve possuir um titulo escrito "CAC TAT" a cima do formulario', () => {
     cy.contains('#title', 'CAC TAT')
-
     const firstname = ('Nathanael')
     cy.get('#firstName').type(firstname)
     cy.get('#lastName').type('Henrique Souza Nunes')
@@ -111,10 +110,6 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('#open-text-area').type('Produto muito bom, parabens, produto excelente, superou nossas expectativas')
     cy.get('button, [type="submit"]').click()
     .should('be.visible', 'Mensagem enviada com sucesso')
-
-    cy.tick(3000)
-
-    cy.get('.success').should('not.be.visible')
   })
 
   it('seleciona um produto (YouTube) por seu texto', () => {
@@ -198,5 +193,43 @@ describe('Central de Atendimento ao Cliente TAT', () => {
 
     cy.contains('CAC TAT - Política de Privacidade')
     .should('be.visible')
+  })
+
+  it('exibe e oculta as mensagens de sucesso e erro usando .invoke()', () => {
+    cy.get('.success')
+    .should('not.be.visible')
+    .invoke('show')
+    .should('be.visible')
+    .contains('Mensagem enviada com sucesso.')
+    .invoke('hide')
+    .should('not.be.visible')
+    cy.get('.error')
+    .invoke('show')
+    .should('be.visible')
+    .contains('Valide os campos obrigatórios!')
+    .invoke('hide')
+    .should('not.be.visible')
+  })
+
+  it('preenche o campo da área de texto usando o comando invoke', () => {
+    cy.get('#firstName').invoke('val', 'Nathanael')
+    .should('have.value', 'Nathanael')
+    cy.get('#lastName').invoke('val', 'Henrique Souza Nunes')
+    .should('have.value', 'Henrique Souza Nunes')
+    cy.get('#email').invoke('val', 'nathantester@gmail.com')
+    .should('have.value', 'nathantester@gmail.com')
+    cy.get('#product').select(2)
+    cy.get('input[type="radio"][value="feedback"]').check()
+    cy.get('#email-checkbox').check()
+    const FeedBack = 'Muito bom o produto de voces'
+    cy.get('#open-text-area').type(FeedBack)
+    .should('have.value', FeedBack)
+    cy.get('.button').click()
+
+  })
+
+  it('Faz um requisição HTTP', () => {
+    cy.request('https://cac-tat-v3.s3.eu-central-1.amazonaws.com/index.html')
+    
   })
 })
